@@ -1,0 +1,40 @@
+﻿@model List<DA.Alumno>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<a href="@Url.Action("Create","Alumno")" class="btn btn-outline-primary">Crear Alumno</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Alumno</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Nivel</th>
+            <th scope="col">Correo</th>
+            <th> Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <td>@item.NombreCompleto</td>
+                <td>@item.Dni</td>
+                <td>@item.Grado @item.Seccion</td>
+                <td>@item.Correo</td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }) 
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+

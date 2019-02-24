@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="apafaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Apellidos" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="NombreCompleto" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Dni" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Grado" Type="int" Nullable="false" />
+          <Property Name="Seccion" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="255" />
+          <Property Name="Sexo" Type="char" MaxLength="1" />
+          <Property Name="FechaNacimiento" Type="date" />
+          <Property Name="Celular" Type="varchar" MaxLength="10" />
+          <Property Name="Correo" Type="varchar" MaxLength="100" />
+          <Property Name="NombreApoderado" Type="varchar" MaxLength="250" />
+          <Property Name="DniApoderado" Type="varchar" MaxLength="250" />
+          <Property Name="CelularApoderado" Type="varchar" MaxLength="20" />
+          <Property Name="NombrePadre" Type="varchar" MaxLength="250" />
+          <Property Name="DniPadre" Type="varchar" MaxLength="250" />
+          <Property Name="CelularPadre" Type="varchar" MaxLength="20" />
+          <Property Name="NombreMadre" Type="varchar" MaxLength="250" />
+          <Property Name="DniMadre" Type="varchar" MaxLength="250" />
+          <Property Name="CelularMadre" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Aporte">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" />
+          <Property Name="Monto" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="AporteDetalle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AlumnoId" Type="int" Nullable="false" />
+          <Property Name="AporteId" Type="int" Nullable="false" />
+          <Property Name="IndPago" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Asamblea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" />
+          <Property Name="TipoAsamblea" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Asistencia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AsambleaId" Type="int" />
+          <Property Name="AlumnoId" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="IndTardanza" Type="bit" Nullable="false" />
+          <Property Name="IndPago" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Caja">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AlumnoId" Type="int" Nullable="false" />
+          <Property Name="Monto" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__AporteDet__Alumn__4316F928">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="AporteDetalle" Type="Self.AporteDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AporteDetalle">
+              <PropertyRef Name="AlumnoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AporteDet__Aport__440B1D61">
+          <End Role="Aporte" Type="Self.Aporte" Multiplicity="1" />
+          <End Role="AporteDetalle" Type="Self.AporteDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aporte">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AporteDetalle">
+              <PropertyRef Name="AporteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asistenci__Alumn__3C69FB99">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="Asistencia" Type="Self.Asistencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Asistencia">
+              <PropertyRef Name="AlumnoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asistenci__Asamb__3B75D760">
+          <End Role="Asamblea" Type="Self.Asamblea" Multiplicity="0..1" />
+          <End Role="Asistencia" Type="Self.Asistencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asamblea">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Asistencia">
+              <PropertyRef Name="AsambleaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Caja__AlumnoId__47DBAE45">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="Caja" Type="Self.Caja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Caja">
+              <PropertyRef Name="AlumnoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="apafaModelStoreContainer">
+          <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Aporte" EntityType="Self.Aporte" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AporteDetalle" EntityType="Self.AporteDetalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asamblea" EntityType="Self.Asamblea" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asistencia" EntityType="Self.Asistencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Caja" EntityType="Self.Caja" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__AporteDet__Alumn__4316F928" Association="Self.FK__AporteDet__Alumn__4316F928">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="AporteDetalle" EntitySet="AporteDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AporteDet__Aport__440B1D61" Association="Self.FK__AporteDet__Aport__440B1D61">
+            <End Role="Aporte" EntitySet="Aporte" />
+            <End Role="AporteDetalle" EntitySet="AporteDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asistenci__Alumn__3C69FB99" Association="Self.FK__Asistenci__Alumn__3C69FB99">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="Asistencia" EntitySet="Asistencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asistenci__Asamb__3B75D760" Association="Self.FK__Asistenci__Asamb__3B75D760">
+            <End Role="Asamblea" EntitySet="Asamblea" />
+            <End Role="Asistencia" EntitySet="Asistencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Caja__AlumnoId__47DBAE45" Association="Self.FK__Caja__AlumnoId__47DBAE45">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="Caja" EntitySet="Caja" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="apafaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Apellidos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombres" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Dni" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Grado" Type="Int32" Nullable="false" />
+          <Property Name="Seccion" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Precision="0" />
+          <Property Name="Celular" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NombreApoderado" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DniApoderado" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CelularApoderado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NombrePadre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DniPadre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CelularPadre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NombreMadre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DniMadre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CelularMadre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AporteDetalle" Relationship="Self.FK__AporteDet__Alumn__4316F928" FromRole="Alumno" ToRole="AporteDetalle" />
+          <NavigationProperty Name="Asistencia" Relationship="Self.FK__Asistenci__Alumn__3C69FB99" FromRole="Alumno" ToRole="Asistencia" />
+          <NavigationProperty Name="Caja" Relationship="Self.FK__Caja__AlumnoId__47DBAE45" FromRole="Alumno" ToRole="Caja" />
+        </EntityType>
+        <EntityType Name="Aporte">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Monto" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="AporteDetalle" Relationship="Self.FK__AporteDet__Aport__440B1D61" FromRole="Aporte" ToRole="AporteDetalle" />
+        </EntityType>
+        <EntityType Name="AporteDetalle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AlumnoId" Type="Int32" Nullable="false" />
+          <Property Name="AporteId" Type="Int32" Nullable="false" />
+          <Property Name="IndPago" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Alumno" Relationship="Self.FK__AporteDet__Alumn__4316F928" FromRole="AporteDetalle" ToRole="Alumno" />
+          <NavigationProperty Name="Aporte" Relationship="Self.FK__AporteDet__Aport__440B1D61" FromRole="AporteDetalle" ToRole="Aporte" />
+        </EntityType>
+        <EntityType Name="Asamblea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="TipoAsamblea" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Asistencia" Relationship="Self.FK__Asistenci__Asamb__3B75D760" FromRole="Asamblea" ToRole="Asistencia" />
+        </EntityType>
+        <EntityType Name="Asistencia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AsambleaId" Type="Int32" />
+          <Property Name="AlumnoId" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IndTardanza" Type="Boolean" Nullable="false" />
+          <Property Name="IndPago" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Alumno" Relationship="Self.FK__Asistenci__Alumn__3C69FB99" FromRole="Asistencia" ToRole="Alumno" />
+          <NavigationProperty Name="Asamblea" Relationship="Self.FK__Asistenci__Asamb__3B75D760" FromRole="Asistencia" ToRole="Asamblea" />
+        </EntityType>
+        <EntityType Name="Caja">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AlumnoId" Type="Int32" Nullable="false" />
+          <Property Name="Monto" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Alumno" Relationship="Self.FK__Caja__AlumnoId__47DBAE45" FromRole="Caja" ToRole="Alumno" />
+        </EntityType>
+        <Association Name="FK__AporteDet__Alumn__4316F928">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="AporteDetalle" Type="Self.AporteDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AporteDetalle">
+              <PropertyRef Name="AlumnoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asistenci__Alumn__3C69FB99">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="Asistencia" Type="Self.Asistencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Asistencia">
+              <PropertyRef Name="AlumnoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Caja__AlumnoId__47DBAE45">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="Caja" Type="Self.Caja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Caja">
+              <PropertyRef Name="AlumnoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AporteDet__Aport__440B1D61">
+          <End Role="Aporte" Type="Self.Aporte" Multiplicity="1" />
+          <End Role="AporteDetalle" Type="Self.AporteDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aporte">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AporteDetalle">
+              <PropertyRef Name="AporteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asistenci__Asamb__3B75D760">
+          <End Role="Asamblea" Type="Self.Asamblea" Multiplicity="0..1" />
+          <End Role="Asistencia" Type="Self.Asistencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asamblea">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Asistencia">
+              <PropertyRef Name="AsambleaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="apafaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Alumno" EntityType="Self.Alumno" />
+          <EntitySet Name="Aporte" EntityType="Self.Aporte" />
+          <EntitySet Name="AporteDetalle" EntityType="Self.AporteDetalle" />
+          <EntitySet Name="Asamblea" EntityType="Self.Asamblea" />
+          <EntitySet Name="Asistencia" EntityType="Self.Asistencia" />
+          <EntitySet Name="Caja" EntityType="Self.Caja" />
+          <AssociationSet Name="FK__AporteDet__Alumn__4316F928" Association="Self.FK__AporteDet__Alumn__4316F928">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="AporteDetalle" EntitySet="AporteDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asistenci__Alumn__3C69FB99" Association="Self.FK__Asistenci__Alumn__3C69FB99">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="Asistencia" EntitySet="Asistencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Caja__AlumnoId__47DBAE45" Association="Self.FK__Caja__AlumnoId__47DBAE45">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="Caja" EntitySet="Caja" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AporteDet__Aport__440B1D61" Association="Self.FK__AporteDet__Aport__440B1D61">
+            <End Role="Aporte" EntitySet="Aporte" />
+            <End Role="AporteDetalle" EntitySet="AporteDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asistenci__Asamb__3B75D760" Association="Self.FK__Asistenci__Asamb__3B75D760">
+            <End Role="Asamblea" EntitySet="Asamblea" />
+            <End Role="Asistencia" EntitySet="Asistencia" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="apafaModelStoreContainer" CdmEntityContainer="apafaEntities">
+          <EntitySetMapping Name="Alumno">
+            <EntityTypeMapping TypeName="apafaModel.Alumno">
+              <MappingFragment StoreEntitySet="Alumno">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+                <ScalarProperty Name="Dni" ColumnName="Dni" />
+                <ScalarProperty Name="Grado" ColumnName="Grado" />
+                <ScalarProperty Name="Seccion" ColumnName="Seccion" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="NombreApoderado" ColumnName="NombreApoderado" />
+                <ScalarProperty Name="DniApoderado" ColumnName="DniApoderado" />
+                <ScalarProperty Name="CelularApoderado" ColumnName="CelularApoderado" />
+                <ScalarProperty Name="NombrePadre" ColumnName="NombrePadre" />
+                <ScalarProperty Name="DniPadre" ColumnName="DniPadre" />
+                <ScalarProperty Name="CelularPadre" ColumnName="CelularPadre" />
+                <ScalarProperty Name="NombreMadre" ColumnName="NombreMadre" />
+                <ScalarProperty Name="DniMadre" ColumnName="DniMadre" />
+                <ScalarProperty Name="CelularMadre" ColumnName="CelularMadre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Aporte">
+            <EntityTypeMapping TypeName="apafaModel.Aporte">
+              <MappingFragment StoreEntitySet="Aporte">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AporteDetalle">
+            <EntityTypeMapping TypeName="apafaModel.AporteDetalle">
+              <MappingFragment StoreEntitySet="AporteDetalle">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AlumnoId" ColumnName="AlumnoId" />
+                <ScalarProperty Name="AporteId" ColumnName="AporteId" />
+                <ScalarProperty Name="IndPago" ColumnName="IndPago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Asamblea">
+            <EntityTypeMapping TypeName="apafaModel.Asamblea">
+              <MappingFragment StoreEntitySet="Asamblea">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="TipoAsamblea" ColumnName="TipoAsamblea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Asistencia">
+            <EntityTypeMapping TypeName="apafaModel.Asistencia">
+              <MappingFragment StoreEntitySet="Asistencia">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AsambleaId" ColumnName="AsambleaId" />
+                <ScalarProperty Name="AlumnoId" ColumnName="AlumnoId" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IndTardanza" ColumnName="IndTardanza" />
+                <ScalarProperty Name="IndPago" ColumnName="IndPago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Caja">
+            <EntityTypeMapping TypeName="apafaModel.Caja">
+              <MappingFragment StoreEntitySet="Caja">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AlumnoId" ColumnName="AlumnoId" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
